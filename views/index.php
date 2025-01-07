@@ -1,3 +1,15 @@
+<?php
+$guilds = [];
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://discord.com/api/v9/users/@me/guilds');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+  'Authorization: ' . $config['token']
+]);
+$response = curl_exec($ch);
+$guilds = json_decode($response, true);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,78 +38,13 @@
 
       <div class="line"></div>
 
-      <li class="server-icon-button">
-        <p class="server-icon-text">FYP</p>
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/1.webp" alt="Server Icon 1">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/2.webp" alt="Server Icon 2">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/3.webp" alt="Server Icon 3">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/4.webp" alt="Server Icon 4">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/5.webp" alt="Server Icon 5">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/6.webp" alt="Server Icon 6">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/7.webp" alt="Server Icon 7">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/8.webp" alt="Server Icon 8">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/9.webp" alt="Server Icon 9">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/10.webp" alt="Server Icon 10">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/11.webp" alt="Server Icon 11">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/12.webp" alt="Server Icon 12">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/13.webp" alt="Server Icon 13">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/14.webp" alt="Server Icon 14">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/15.webp" alt="Server Icon 15">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/16.webp" alt="Server Icon 16">
-      </li>
-
-      <li class="server-icon-button">
-        <img class="server-icon" src="img/server-img/17.webp" alt="Server Icon 17">
-      </li>
-
+      <?php foreach ($guilds as $guild) : ?>
+        <li class="server-icon-button" title="<?php echo $guild['name']; ?>">
+          <a href="https://discord.com/channels/<?php echo $guild['id']; ?>">
+            <img class="server-icon" src="<?php echo $guild['icon'] ? 'https://cdn.discordapp.com/icons/' . $guild['id'] . '/' . $guild['icon'] . '.png' : 'img/default-icon.png'; ?>" alt="<?php echo $guild['name']; ?>">
+          </a>
+        </li>
+      <?php endforeach; ?>
     </ul>
 
     <div class="header-container">
