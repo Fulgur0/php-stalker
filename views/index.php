@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Totally Real Discord</title>
+  <title></title>
   <link rel="icon" href="img/icon.png">
 
   <link rel="stylesheet" href="styles/general.css">
