@@ -8,6 +8,17 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 ]);
 $response = curl_exec($ch);
 $guilds = json_decode($response, true);
+curl_close($ch);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://discord.com/api/v9/users/@me');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+  'Authorization: ' . $config['token']
+]);
+$response = curl_exec($ch);
+$user = json_decode($response, true);
+curl_close($ch);
 ?>
 
 <!DOCTYPE html>
@@ -179,14 +190,14 @@ $guilds = json_decode($response, true);
 
       <div class="profile-bar">
         <div class="profile-picture-container">
-          <img class="profile-picture" src="img/user-img/1.webp" alt="Profile Picture">
+          <img class="profile-picture" src="<?php echo $user['avatar'] ? 'https://cdn.discordapp.com/avatars/' . $user['id'] . '/' . $user['avatar'] . '.png' : 'img/default-avatar.png'; ?>" alt="Profile Picture">
           <div class="status-holder">
             <i class="fa-solid fa-circle status-online"></i>
           </div>
         </div>
         <div class="member-text">
-          <p class="profile-member-name">Peterlim26</p>
-          <p class="member-status">Learning CSS</p>
+          <p class="profile-member-name"><?php echo $user['username']; ?></p>
+          <p class="member-status"><?php echo $user['status'] ?? 'Online'; ?></p>
         </div>
         <div class="profile-icons">
           <i class="fa-solid fa-microphone fa-lg"></i>
